@@ -20,7 +20,7 @@
         HEADER_Content-Type: "application/json"
         HEADER_Authorization: "bearer {{ digital_ocean_token }}"
         method: GET
-        url: "https://api.digitalocean.com/v2/droplets?tag_name=test-{{ haproxy }}-instance"
+        url: "https://api.digitalocean.com/v2/droplets?tag_name=test-{{ role_name }}-instance"
       register: instances
 
     - name: Delete digital_ocean instance
