@@ -4,13 +4,13 @@
   with_first_found:
     - "{{ ansible_os_family|lower }}/{{ ansible_distribution|lower }}/{{ ansible_distribution_release|lower }}/main.yml"
     - "{{ ansible_os_family|lower }}/{{ ansible_distribution|lower }}/main.yml"
-    - "{{ ansible_os_family|lower }}/main.yml"
+    - "{{ ansible_os_family|lower }}.yml"
     - main.yml
   tags:
     - always
 
 - name: "Install for {{ ansible_os_family }}"
-  include: "{{ ansible_os_family|lower }}/install.yml"
+  include: "{{ ansible_os_family|lower }}/{{ ansible_pkg_mgr|lower }}-install.yml"
 
 - name: Copy HAProxy cfg
   template:

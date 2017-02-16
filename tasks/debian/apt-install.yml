@@ -5,9 +5,3 @@
     state: installed
   notify: restart haproxy
   become: true
-
-- name: Ensure letsencrypt is installed
-  apt:
-    name: letsencrypt
-    state: installed
-  become: true

@@ -1,0 +1,22 @@
+---
+- name: Install python-dnf
+  raw: dnf install -y python-dnf \
+  register: dnf_install
+  changed_when: "'is already installed' not in dnf_install.stdout"
+
+- name: 'Install libselinux-python (so we can copy files)'
+  dnf:
+    name: "libselinux-python"
+    state: latest
+  become: true
+
+- name: 'Installs haproxy as well as socat for socket api'
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  notify: restart haproxy
+  with_items:
+    - haproxy
+    - libselinux-python
+    - socat
+  become: true

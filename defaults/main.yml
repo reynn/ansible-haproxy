@@ -1,7 +1,4 @@
 ---
-
-# defaults file for haproxy
-
 haproxy_manage_config: true
 haproxy_global:
   log:
@@ -35,21 +32,6 @@ haproxy_defaults:
     - abortonclose
     - httplog
     - dontlognull
-  errorfile:
-      - code: 400
-        file: /etc/haproxy/errors/400.http
-      - code: 403
-        file: /etc/haproxy/errors/403.http
-      - code: 408
-        file: /etc/haproxy/errors/408.http
-      - code: 500
-        file: /etc/haproxy/errors/500.http
-      - code: 502
-        file: /etc/haproxy/errors/502.http
-      - code: 503
-        file: /etc/haproxy/errors/503.http
-      - code: 504
-        file: /etc/haproxy/errors/504.http
 
 haproxy_backends: []
 haproxy_frontends: []

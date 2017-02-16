@@ -14,10 +14,3 @@
     - haproxy
     - socat
   become: true
-
-
-- name: Ensure letsencrypt is installed
-  apt:
-    name: cerbot
-    state: installed
-  become: true
