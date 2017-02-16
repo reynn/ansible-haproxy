@@ -1,0 +1,36 @@
+{{ ansible_managed|comment }}
+{% if haproxy_global is defined %}
+{% include "global.cfg.j2" %}
+{% endif %}
+
+{% if haproxy_defaults is defined %}
+{% include "defaults.cfg.j2" %}
+{% endif %}
+
+{% if haproxy_frontends is defined -%}
+{% for item in haproxy_frontends %}
+{% include "frontend.cfg.j2" %}
+
+{% endfor %}
+{% endif -%}
+
+{% if haproxy_backends is defined -%}
+{% for item in haproxy_backends %}
+{% include "backend.cfg.j2" %}
+
+{% endfor %}
+{% endif -%}
+
+{% if haproxy_listen is defined -%}
+{% for item in haproxy_listen %}
+{% include "listen.cfg.j2" %}
+
+{% endfor %}
+{% endif -%}
+
+{% if haproxy_userlists is defined -%}
+{% for item in haproxy_userlists %}
+{% include "userlist.cfg.j2" %}
+
+{% endfor %}
+{% endif -%}

@@ -1,0 +1,24 @@
+---
+- name: Load OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family|lower }}/{{ ansible_distribution|lower }}/{{ ansible_distribution_release|lower }}/main.yml"
+    - "{{ ansible_os_family|lower }}/{{ ansible_distribution|lower }}/main.yml"
+    - "{{ ansible_os_family|lower }}/main.yml"
+    - main.yml
+  tags:
+    - always
+
+- name: "Install for {{ ansible_os_family }}"
+  include: "{{ ansible_os_family|lower }}/install.yml"
+
+- name: Copy HAProxy cfg
+  template:
+    src: haproxy.cfg.j2
+    dest: "{{ etc_prefix }}/haproxy/haproxy.cfg"
+    validate: haproxy -f %s -c -q
+  when: haproxy_manage_config
+  notify: restart haproxy
+  become: true
+  tags:
+    - config

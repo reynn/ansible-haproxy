@@ -1,0 +1,23 @@
+---
+- name: 'Add epel repo'
+  yum:
+    name: epel-release
+    state: present
+  become: true
+
+- name: 'Installs haproxy as well as socat for socket api'
+  yum:
+    name: "{{ item }}"
+    state: latest
+    notify: restart haproxy
+  with_items:
+    - haproxy
+    - socat
+  become: true
+
+
+- name: Ensure letsencrypt is installed
+  apt:
+    name: cerbot
+    state: installed
+  become: true
