@@ -9,7 +9,7 @@
   yum:
     name: "{{ item }}"
     state: latest
-    notify: restart haproxy
+  notify: restart haproxy
   with_items:
     - haproxy
     - socat
