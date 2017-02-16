@@ -5,6 +5,7 @@
   gather_facts: False
   vars:
     digital_ocean_token: "{{ lookup('env', 'DO_API_TOKEN') }}"
+    role_name: haproxy
 
   tasks:
     - name: Remove key
@@ -19,7 +20,7 @@
         HEADER_Content-Type: "application/json"
         HEADER_Authorization: "bearer {{ digital_ocean_token }}"
         method: GET
-        url: "https://api.digitalocean.com/v2/droplets?tag_name=test-instance"
+        url: "https://api.digitalocean.com/v2/droplets?tag_name=test-{{ haproxy }}-instance"
       register: instances
 
     - name: Delete digital_ocean instance
