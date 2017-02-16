@@ -93,5 +93,31 @@
 
 - name: Test role
   hosts: all
+  vars:
+    haproxy_frontends:
+      - name: www-frontend
+        bind:
+          - name: http
+            address: "*"
+            port_range: 80
+        mode: http
+        maxconn: 2048
+        options:
+          - forwardfor
+        default_backend: jenkins
+
+    haproxy_backends:
+      - name: jenkins
+        description: Jenkins CI/CD Server
+        balance: roundrobin
+        servers:
+          - name: jenkins
+            ip: localhost
+            port: 8080
+            params:
+              - cookie
+              - check
+        options:
+          - forwardfor
   roles:
     - ansible-haproxy
