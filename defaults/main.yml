@@ -19,12 +19,12 @@ haproxy_defaults:
       facility: local1
       level: notice
   timeout:
-      - param: 'connect'
-        value: '5000ms'
-      - param: 'client'
-        value: '50000ms'
-      - param: 'server'
-        value: '50000ms'
+    - param: 'connect'
+      value: '5000ms'
+    - param: 'client'
+      value: '50000ms'
+    - param: 'server'
+      value: '50000ms'
   options:
     - httpclose
     - forwardfor except 127.0.0.0/8

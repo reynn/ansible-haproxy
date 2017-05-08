@@ -15,6 +15,18 @@
 - name: Copy HAProxy cfg
   template:
     src: haproxy.cfg.j2
+    dest: "{{ etc_prefix }}/haproxy/haproxy.cfg.debug"
+  when: 
+    - haproxy_manage_config
+    - debug_mode
+  notify: restart haproxy
+  become: true
+  tags:
+    - debug
+
+- name: Copy HAProxy cfg
+  template:
+    src: haproxy.cfg.j2
     dest: "{{ etc_prefix }}/haproxy/haproxy.cfg"
     validate: haproxy -f %s -c -q
   when: haproxy_manage_config
