@@ -5,3 +5,14 @@
     enabled: yes
     state: restarted
   become: true
+  when: '"docker" not in groups'
+
+- name: restart haproxy docker
+  docker_container:
+    name: haproxy
+    state: started
+    restart: yes
+  become: true
+  when:
+    - '"docker" in groups'
+    - 'haproxy_docker_container.changed == false'

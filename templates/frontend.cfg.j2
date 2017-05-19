@@ -7,88 +7,88 @@ frontend {{ item.name }} {%if item.ip is defined %}{{ item.ip }}{% endif %}{%if 
   {% endfor %}
 {% endif -%}
 
-  {%- if item.mode is defined -%}
+{%- if item.mode is defined -%}
   mode {{ item.mode }}
-  {% endif -%}
+{% endif -%}
 
-  {% if item.maxconn is defined -%}
+{% if item.maxconn is defined -%}
   maxconn {{ item.maxconn }}
-  {% endif -%}
+{% endif -%}
 
-  {%- if item.timeout is defined -%}
-  {% for entry in item.timeout %}
+{%- if item.timeout is defined -%}
+{% for entry in item.timeout %}
   timeout {{ entry.param }} {{ entry.value }}
-  {% endfor %}
-  {% endif -%}
+{% endfor %}
+{% endif -%}
 
-  {%- if item.monitor is defined -%}
-  {% if item.monitor.uri is defined -%}
+{%- if item.monitor is defined -%}
+{% if item.monitor.uri is defined -%}
   monitor-uri {{ item.monitor.uri }}
-  {% endif %}
+{% endif %}
 
-  {%- if item.monitor.fail is defined -%}
-  {%- for condition in item.monitor.fail -%}
+{%- if item.monitor.fail is defined -%}
+{%- for condition in item.monitor.fail -%}
   monitor fail {{ condition }}
-  {% endfor %}
-  {% endif %}
-  {% endif -%}
+{% endfor %}
+{% endif %}
+{% endif -%}
 
-  {%- if item.acl is defined -%}
-  {%- for acl in item.acl -%}
+{%- if item.acl is defined -%}
+{%- for acl in item.acl -%}
   acl {{ acl.name }} {{ acl.condition }}
-  {% endfor -%}
-  {% endif -%}
+{% endfor -%}
+{% endif -%}
 
-  {%- if item.reqadd is defined -%}
-  {%- for reqadd in item.reqadd -%}
+{%- if item.reqadd is defined -%}
+{%- for reqadd in item.reqadd -%}
   reqadd {{ reqadd }}
-  {% endfor %}
-  {% endif -%}
+{% endfor %}
+{% endif -%}
 
-  {%- if item.rspadd is defined -%}
-  {%- for rspadd in item.rspadd -%}
+{%- if item.rspadd is defined -%}
+{%- for rspadd in item.rspadd -%}
   rspadd {{ rspadd }}
-  {% endfor %}
-  {% endif -%}
+{% endfor %}
+{% endif -%}
 
-  {%- if item.rate_limit_sessions is defined -%}
+{%- if item.rate_limit_sessions is defined -%}
   rate-limit sessions {{ item.rate_limit_sessions }}
-  {% endif %}
+{% endif %}
 
-  {%- if item.block is defined -%}
-  {%- for block in item.block -%}
+{%- if item.block is defined -%}
+{%- for block in item.block -%}
   block {{ block }}
-  {% endfor -%}
-  {% endif -%}
+{% endfor -%}
+{% endif -%}
 
-  {% if item.options is defined %}
-  {% for option in item.options %}
+{% if item.options is defined %}
+{% for option in item.options %}
   option {{ option }}
-  {% endfor %}
-  {% endif -%}
+{% endfor %}
+{% endif -%}
 
-  {% if item.redirects is defined -%}
-  {% for redirect in item.redirects -%}
+{% if item.redirects is defined -%}
+{% for redirect in item.redirects -%}
   redirect {{ redirect }}
-  {% endfor -%}
-  {% endif -%}
+{% endfor -%}
+{% endif -%}
 
-  {%- if item.tcp_request is defined -%}
-  {%- for request in item.tcp_request -%}
+{%- if item.tcp_request is defined -%}
+{%- for request in item.tcp_request -%}
   tcp-request {{ request.param }} {{ request.value }}{% if request.condition is defined %} {{ request.condition }}{% endif %}
-  {% endfor -%}
-  {% endif -%}
+{% endfor -%}
+{% endif -%}
 
-  {% if item.http_request is defined %}
+{% if item.http_request is defined %}
   {% include "http_request.cfg.j2" %}
-  {% endif -%}
+{% endif -%}
 
-  {%- if item.default_backend is defined -%}
+{%- if item.default_backend is defined -%}
   default_backend {{ item.default_backend }}
-  {% endif -%}
+{% endif -%}
 
-  {%- if item.use_backend is defined -%}
-  {%- for backend in item.use_backend -%}
+{%- if item.use_backends is defined -%}
+{%- for backend in item.use_backends -%}
   use_backend {{ backend.name }} if {{ backend.condition }}
-  {% endfor -%}
-  {% endif -%}
+{% endfor -%}
+{% endif -%}
