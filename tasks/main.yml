@@ -11,15 +11,15 @@
 
 - name: "Install for {{ ansible_os_family }}"
   include: "{{ ansible_os_family|lower }}/{{ ansible_pkg_mgr|lower }}-install.yml"
+  when: '"docker" not in groups'
 
-- name: Copy HAProxy cfg
+- name: Copy HAProxy cfg (debug)
   template:
     src: haproxy.cfg.j2
     dest: "{{ etc_prefix }}/haproxy/haproxy.cfg.debug"
-  when: 
+  when:
     - haproxy_manage_config
     - debug_mode
-  notify: restart haproxy
   become: true
   tags:
     - debug
@@ -28,9 +28,25 @@
   template:
     src: haproxy.cfg.j2
     dest: "{{ etc_prefix }}/haproxy/haproxy.cfg"
-    validate: haproxy -f %s -c -q
+    # validate: haproxy -f %s -c -q
   when: haproxy_manage_config
-  notify: restart haproxy
+  notify:
+    - restart haproxy
+    - restart haproxy docker
   become: true
   tags:
     - config
+
+- name: "Start HAProxy Docker container"
+  docker_container:
+    image: haproxy:1.7-alpine
+    name: haproxy
+    networks:
+      - name: jenkins_net
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/haproxy:/usr/local/etc/haproxy:ro
+  register: haproxy_docker_container
+  when: '"docker" in groups'
